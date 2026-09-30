@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Activity, BookOpen, CalendarDays, Check, ChevronRight, CircleHelp, Clock3, Headphones, Mic, MicOff, Pencil, Plus, Send, ShieldCheck, Sparkles, Square, Trash2, Wifi, X } from 'lucide-react'
-import { api } from './api.js'
+import { api, hasAuthSessionCookie } from './api.js'
 import './App.css'
 import './App.extra.css'
 
@@ -121,6 +121,10 @@ function App() {
 
   useEffect(() => {
     let active = true
+    if (!hasAuthSessionCookie()) {
+      setAuthLoading(false)
+      return () => { active = false }
+    }
     api.auth.me().then(({ user: currentUser }) => {
       if (active) { userRef.current = currentUser; setUser(currentUser) }
     }).catch(() => {}).finally(() => { if (active) setAuthLoading(false) })
@@ -128,7 +132,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (!user) return undefined
+    if (!user || !hasAuthSessionCookie()) return undefined
     let active = true
     Promise.all([api.tasks.list(), api.documents.list(), api.quizzes.list(), api.conversations.list(), api.auth.profile()])
       .then(([taskData, documentData, quizData, conversationData, profileData]) => {

@@ -6,6 +6,10 @@ class ApiError extends Error {
   }
 }
 
+export function hasAuthSessionCookie(cookieString = typeof document === 'undefined' ? '' : document.cookie) {
+  return cookieString.split(';').some((part) => part.trim().startsWith('campuspilot_session='))
+}
+
 async function request(path, { method = 'GET', body, signal } = {}) {
   const write = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)
   const headers = {}

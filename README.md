@@ -66,7 +66,24 @@ npm test
 npm run lint
 ```
 
-The production build outputs to this project's `dist/`. The Express server serves that folder when built; no Firebase or Render configuration is included.
+The production build outputs to this project's `dist/`. The Express server serves that folder when built.
+
+## Public Deployment
+
+This project is ready to host as a single Node web service. The simplest approach is Render:
+
+1. Push this folder to GitHub.
+2. Create a new Render Web Service from the repository.
+3. Use the included `render.yaml` config, or set the service start command to `npm start` and the build command to `npm install && npm run build`.
+4. Add these environment variables in the Render dashboard:
+   - `NODE_ENV=production`
+   - `PORT=10000`
+   - `FRONTEND_URL=https://<your-render-domain>`
+   - `AUTH_SECRET=<strong-random-secret>`
+   - `ASSEMBLYAI_API_KEY=<your-live-key>`
+5. Trigger deploy and verify `https://<your-render-domain>/api/health` responds successfully.
+
+A container-based alternative is also included via the root `Dockerfile` for providers that build from containers instead of a Node service.
 
 ## Environment and API Key
 
