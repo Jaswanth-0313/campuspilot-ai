@@ -16,6 +16,7 @@ import quizRoutes from './quiz-routes.js'
 
 const app = express()
 const port = Number(process.env.PORT || 5001)
+const host = process.env.HOST || (process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1')
 const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5174'
 const currentDir = path.dirname(fileURLToPath(import.meta.url))
 const distDir = path.resolve(currentDir, '../dist')
@@ -98,6 +99,6 @@ app.use((error, _req, res, _next) => {
   return res.status(500).json({ message: 'CampusPilot could not process this request.' })
 })
 
-app.listen(port, '127.0.0.1', () => {
-  console.log(`CampusPilot API listening on http://127.0.0.1:${port}`)
+app.listen(port, host, () => {
+  console.log(`CampusPilot API listening on http://${host}:${port}`)
 })

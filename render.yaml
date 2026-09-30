@@ -3,16 +3,19 @@ services:
     name: campuspilot-ai
     runtime: node
     plan: free
+    nodeVersion: 22
     buildCommand: npm install && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
+      - key: HOST
+        value: 0.0.0.0
       - key: PORT
         value: 10000
       - key: FRONTEND_URL
-        value: https://campuspilot-ai.onrender.com
+        value: https://campuspilot-ai-uwn5.onrender.com
       - key: AUTH_SECRET
         generateValue: true
       - key: ASSEMBLYAI_API_KEY
