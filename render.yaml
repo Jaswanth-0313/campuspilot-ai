@@ -3,7 +3,6 @@ services:
     name: campuspilot-ai
     runtime: node
     plan: free
-    nodeVersion: 22
     buildCommand: npm install --include=dev && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
